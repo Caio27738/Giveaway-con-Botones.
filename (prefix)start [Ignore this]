@@ -1,0 +1,40 @@
+$nomention
+$c[config below]
+$var[color;367fff] $c[The embeds color]
+$var[perms;admin] $c[The permission the user needs to create a giveaway]
+$c[config above]
+ 
+$c[DON'T FORGET TO ENABLE BDSCRIPT 2]
+$c[Code made by Berk#3506 | Submitted at https://dsc.chat/codes - the biggest BDFD codes sharing server.]
+$onlyIf[$guildID!=;]
+$onlyIf[$or[$checkUserPerms[$authorID;$var[perms]]==true;$hasRole[$authorID;$roleID[giveaways]]==true;$hasRole[$authorID;$roleID[Giveaways]]==true]==true;]
+$onlyIf[$serverChannelExists[$mentionedChannels[1;yes]]==true;]
+$onlyIf[$message[1]!=;]
+$if[$and[$checkContains[$message[1];m;s;h]==true;$isNumber[$replaceText[$replaceText[$replaceText[$message[1];m;;1];s;;1];h;;1]]==true]==true]
+$onlyIf[$replaceText[$noMentionMessage;$message[1];;1]!=;]
+$if[$checkContains[$message[1];s]$checkContains[$message[1];m]$checkContains[$message[1];h]==truefalsefalse]
+$var[time;$sum[$getTimestamp;$replaceText[$replaceText[$message[1];m;;1];s;;1]]]
+$else
+$if[$checkContains[$message[1];h]==true]
+$var[time;$sum[$getTimestamp;$multi[$replaceText[$replaceText[$replaceText[$message[1];m;;1];s;;1];h;;1];3600]]]
+$else
+$var[time;$sum[$getTimestamp;$multi[$replaceText[$replaceText[$message[1];m;;1];s;;1];60]]]
+$endif
+$endif
+ 
+$if[$and[$isNumber[$replaceText[$replaceText[$message[1];m;;1];s;;1]]==true;$replaceText[$replaceText[$message[1];m;;1];s;;1]<$replaceText[$replaceText[%$checkContains[$message[1];s]%;%true%;2401;1];%false%;41;1]]==true]
+$replyIn[$message[1]]
+$dm[$authorID]
+$if[$getServerVar[gw_joiners;$messageID]>1]
+Hey hoster! the giveaway of **$getServerVar[gw_prize;$messageID]** has ended with $getServerVar[gw_joiners;$messageID] participants! don't forget to end it by clicking the end button.
+$else
+Hey hoster! I wasn't able to end the giveaway of **$getServerVar[gw_prize;$messageID]**, because it has not enough joins, it has **$getServerVar[gw_joiners;$messageID]/2** participants.
+$endif
+$else
+$dm[$authorID]
+Hey hoster! the giveaway duration is longer than 40 minutes, therefore, I won't be able to notice you when it ends, you will need to end the giveaway automatically after the given time.
+$endif
+$else
+$onlyIf[$noMentionMessage!=;]
+$endif
+$suppressErrors

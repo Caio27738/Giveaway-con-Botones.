@@ -1,0 +1,58 @@
+$nomention
+$c[config below]
+$var[color;367fff]
+$var[prefix;(Your bot prefix here)] $c[<== replace "(Your bot prefix here)" with your bot prefix]
+$var[perms;admin] $c[The permission the user needs to create a giveaway]
+$c[config above]
+ 
+$c[DON'T FORGET TO ENABLE BDSCRIPT 2]
+$c[Code made by Berk#3506 | Submitted at https://dsc.chat/codes - the biggest BDFD codes sharing server.]
+$onlyIf[$guildID!=;This command only works on servers.]
+$onlyIf[$or[$checkUserPerms[$authorID;$var[perms]]==true;$hasRole[$authorID;$roleID[giveaways]]==true;$hasRole[$authorID;$roleID[Giveaways]]==true]==true;You need either $var[perms] perms or a role called "Giveaways" to create giveaways!]
+$onlyIf[$serverChannelExists[$mentionedChannels[1;yes]]==true;Please, just mention a channel of this server, not one from others servers.]
+$onlyIf[$message[1]!=;Invalid format! usage: $var[prefix]start <time in seconds/minutes/hours, example: 50m, optional> {prize, needed} <channel, optional>]
+$if[$and[$checkContains[$message[1];m;s;h]==true;$isNumber[$replaceText[$replaceText[$replaceText[$message[1];m;;1];s;;1];h;;1]]==true]==true]
+$onlyIf[$replaceText[$noMentionMessage;$message[1];;1]!=;Invalid format! usage: $var[prefix]start {prize, needed} <channel, optional> (you're forgetting the prize)]
+$if[$checkContains[$message[1];s]$checkContains[$message[1];m]$checkContains[$message[1];h]==truefalsefalse]
+$var[time;$sum[$getTimestamp;$replaceText[$replaceText[$message[1];m;;1];s;;1]]]
+$else
+$if[$checkContains[$message[1];h]==true]
+$var[time;$sum[$getTimestamp;$multi[$replaceText[$replaceText[$replaceText[$message[1];m;;1];s;;1];h;;1];3600]]]
+$else
+$var[time;$sum[$getTimestamp;$multi[$replaceText[$replaceText[$message[1];m;;1];s;;1];60]]]
+$endif
+$endif
+$setServerVar[gw_prize;$replaceText[$replaceText[$message;$message[1];;1];<#$mentionedChannels[1;yes]>;;1];$messageID]
+$setServerVar[gw_amount;$sum[$getServerVar[gw_amount];1]]
+$nomention
+$useChannel[$mentionedChannels[1;yes]]
+$thumbnail[$serverIcon]
+$author[🎉$serverName[$guildID] giveaway!🎉]
+$title[$replaceText[$replaceText[$message;$message[1];;1];<#$mentionedChannels[1;yes]>;;1]]
+$description[**Hosted by** <@$authorID>
+**Prize** $replaceText[$replaceText[$message;$message[1];;1];<#$mentionedChannels[1;yes]>;;1]
+**Ends** <t:$var[time]:R>]
+$footer[Click the button to participate! - Giveaway Nº$getServerVar[gw_amount], ID $messageID]
+$color[$var[color]]
+$addTimestamp
+$addButton[no;gw_join$messageID;Join;success;no;🎉]
+$addButton[no;gw_end$messageID;End (Host);danger;no;]
+$sendEmbedMessage[$channelID;;Successfully started!;$getBotInvite;Successfully started your giveaway of **$replaceText[$replaceText[$message;$message[1];;1];<#$mentionedChannels[1;yes]>;;1]** in the channel <#$mentionedChannels[1;yes]>;$var[color];;;$username[$botID] giveaway system;;;;yes;no]
+$else
+$onlyIf[$noMentionMessage!=;Invalid format! usage: $var[prefix]start <time in **s**econds/**m**inutes/**h**ours, example: **50m**, optional> {prize, needed} <channel, optional> (you're forgetting the prize)]
+$setServerVar[gw_prize;$replaceText[$replaceText[$message;$message[1];;1];<#$mentionedChannels[1;yes]>;;1];$messageID]
+$setServerVar[gw_amount;$sum[$getServerVar[gw_amount];1]]
+$useChannel[$mentionedChannels[1;yes]]
+$thumbnail[$serverIcon]
+$author[🎉$serverName[$guildID] giveaway!🎉]
+$title[$replaceText[$message;<#$mentionedChannels[1;yes]>;;1]]
+$description[**Hosted by** <@$authorID>
+**Prize** $replaceText[$message;<#$mentionedChannels[1;yes]>;;1]
+**Ends** undefined!]
+$footer[Click the button to participate! - Giveaway Nº$getServerVar[gw_amount], ID $messageID]
+$color[$var[color]]
+$addTimestamp
+$addButton[no;gw_join$messageID;Join;success;no;🎉]
+$addButton[no;gw_end$messageID;End (Host);danger;no;]
+$sendEmbedMessage[$channelID;;Successfully started!;$getBotInvite;Successfully started your giveaway of **$replaceText[$replaceText[$message;$message[1];;1];<#$mentionedChannels[1;yes]>;;1]** in the channel <#$mentionedChannels[1;yes]>;$var[color];;;$username[$botID] giveaway system;;;;yes;no]
+$endif

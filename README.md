@@ -7,9 +7,9 @@ In this code you have to use BDScript 2.
 Add this variables and values:
 
 gw_amount: 0
-gw_joins: 
+gw_joins: no value
 gw_joiners: 0
-gw_prize: 
+gw_prize: no value
 
 The credits go to the corresponding person.
 
